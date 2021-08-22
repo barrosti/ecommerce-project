@@ -8,8 +8,24 @@
         <a href="#" class="primary-btn">Add to cart</a>
 
         <hr>
+        <h4>Authors:</h4>
+                <!-- loop over the collection of authors -->     
+                <ul *ngFor="let au of product.authors" >
+                    <li>
+                        <a routerLink="/author/{{ au.id }}">
+                            {{ au.firstName}} {{ au.lastName}}
+                        </a>
+                    </li>
+                </ul>
+                <!-- if products empty then display a message-->
+                <ul *ngIf="product.authors?.length == 0">
+                    Author not found.
+                </ul>                
+
+        <hr>
         <h4>Description:</h4>
         <p>{{ product.description }}</p>
+        
 
         <a routerLink="/products" class="mt-5">Back to product list</a>
 

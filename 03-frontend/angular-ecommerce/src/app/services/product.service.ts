@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
+import { Author } from '../common/author';
 
 
 
@@ -68,6 +69,15 @@ export class ProductService {
     );
   }
 
+  getProductAuthorsById(theProductId: number) : Observable<Author[]> {
+
+    const getProducAuthortUrl = `${this.baseUrl}/${theProductId}/authors`;
+
+    return this.httpClient.get<GetResponseProductsAuthor>(getProducAuthortUrl).pipe(
+      map( response => response._embedded.authors)
+    )
+  }  
+
 }
 
 
@@ -86,5 +96,11 @@ interface GetResponseProducts {
 interface GetResponseProductsCategory {
   _embedded: {
     productCategory: ProductCategory[];
+  }
+}
+
+interface GetResponseProductsAuthor {
+  _embedded: {
+    authors: Author[];
   }
 }

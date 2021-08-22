@@ -10,8 +10,10 @@ import { ProductService } from './services/product.service';
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import { AuthorDetailsComponent } from './components/author-details/author-details.component';
 
 const routes : Routes = [
+  {path: 'author/:id', component: AuthorDetailsComponent },  
   {path: 'products/:id', component: ProductDetailsComponent },
   {path: 'search/:keyword', component: ProductListComponent },
   {path: 'category/:id/:name', component: ProductListComponent },
@@ -30,7 +32,8 @@ const routes : Routes = [
     ProductListComponent,
     ProductCategoryMenuComponent,
     SearchComponent,
-    ProductDetailsComponent
+    ProductDetailsComponent,
+    AuthorDetailsComponent
   ],
   imports: [
     RouterModule.forRoot(routes),

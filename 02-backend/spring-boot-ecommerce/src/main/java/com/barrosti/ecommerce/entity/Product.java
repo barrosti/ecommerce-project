@@ -1,16 +1,20 @@
 package com.barrosti.ecommerce.entity;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="product")
-@Data
+@Getter
+@Setter
 public class Product {
 
     @Id
@@ -50,5 +54,11 @@ public class Product {
     @Column(name = "last_updated")
     @UpdateTimestamp
     private Date lastUpdated;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "author_book", joinColumns = @JoinColumn(name = "book_id"),
+                inverseJoinColumns = @JoinColumn(name = "author_id"))
+    //@JsonManagedReference
+    private Set<Author> authors = new HashSet<>();
 
 }

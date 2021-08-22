@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Author } from 'src/app/common/author';
 import { Product } from 'src/app/common/product';
 import { ProductService } from 'src/app/services/product.service';
 
@@ -27,7 +28,16 @@ export class ProductDetailsComponent implements OnInit {
 
     this.productService.getProductById(theProductId).subscribe(
       data => {
+        console.log('Product Categories=' + JSON.stringify(data));
         this.product = data;
+      }
+    )
+
+    // get authors
+    this.productService.getProductAuthorsById(theProductId).subscribe(
+      data => {
+        console.log('Product Authors=' + JSON.stringify(data));
+        this.product.authors = data;
       }
     )
   }

@@ -1,5 +1,6 @@
 package com.barrosti.ecommerce.config;
 
+import com.barrosti.ecommerce.entity.Author;
 import com.barrosti.ecommerce.entity.Product;
 import com.barrosti.ecommerce.entity.ProductCategory;
 import org.springframework.context.annotation.Configuration;
@@ -37,6 +38,12 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         //disable HTTP methods for ProductCategory (read only)
         config.getExposureConfiguration()
                 .forDomainType(ProductCategory.class)
+                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+
+        //disable HTTP methods for Author (read only)
+        config.getExposureConfiguration()
+                .forDomainType(Author.class)
                 .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
                 .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 

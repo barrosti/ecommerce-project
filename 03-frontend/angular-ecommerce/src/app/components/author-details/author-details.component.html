@@ -1,0 +1,30 @@
+<div class="detail-section">
+    <div class="container-fluid">
+        <br /><br />
+        <h3>Author Detail</h3>
+        <div>
+            First Name: {{ author.firstName }}
+        </div>
+        <div>
+            Last name: {{ author.lastName }}
+        </div>
+
+        <hr>
+        <div>
+            <h3>Books:</h3>
+        </div>
+                <!-- loop over the collection of products -->     
+                <ul *ngFor="let prd of author.products" >
+                    <li>
+                        <a routerLink="/products/{{ prd.id }}">
+                            {{ prd.name }}
+                        </a>
+                    </li>
+                </ul>
+                <!-- if products empty then display a message-->
+                <ul *ngIf="author.products?.length == 0">
+                    Books not found.
+                </ul>            
+        
+    </div>
+</div>

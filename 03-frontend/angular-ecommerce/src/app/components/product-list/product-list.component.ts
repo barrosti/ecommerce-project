@@ -83,7 +83,7 @@ export class ProductListComponent implements OnInit {
     }
 
     this.previousCategoryId = this.currentCategoryId;
-    console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
+    //console.log(`currentCategoryId=${this.currentCategoryId}, thePageNumber=${this.thePageNumber}`);
 
     // get products for given category_id
     this.productService.getProductListPaginate(this.thePageNumber -1, // angular page based 1 / spring page based 0
