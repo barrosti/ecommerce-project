@@ -11,6 +11,7 @@ import { ProductCategoryMenuComponent } from './components/product-category-menu
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
 import { AuthorDetailsComponent } from './components/author-details/author-details.component';
+import { CartStatusComponent } from './components/cart-status/cart-status.component';
 
 const routes : Routes = [
   {path: 'author/:id', component: AuthorDetailsComponent },  
@@ -33,7 +34,8 @@ const routes : Routes = [
     ProductCategoryMenuComponent,
     SearchComponent,
     ProductDetailsComponent,
-    AuthorDetailsComponent
+    AuthorDetailsComponent,
+    CartStatusComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
