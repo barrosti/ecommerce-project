@@ -20,6 +20,8 @@ export class ProductListComponent implements OnInit {
   thePageNumber: number = 1;
   thePageSize: number = 5;
   theTotalElements: number = 0;
+
+  previousKeyword: string = '';
   
 
   constructor(private productService: ProductService,
@@ -47,12 +49,22 @@ export class ProductListComponent implements OnInit {
 
     const theKeyWord: string = this.route.snapshot.paramMap.get('keyword')!;
 
+    // if we have a different keyword than previous
+    // then set thePageNumber to 1
+
+    if(this.previousKeyword != theKeyWord){
+      this.thePageNumber = 1;
+    }
+
+    this.previousKeyword = theKeyWord;
+
+    console.log(`keyword=${theKeyWord}, thePageNumber=${this.thePageNumber}`);
+    
+
     // now search for the products using keyword
-    this.productService.searchProducts(theKeyWord).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
+    this.productService.searchProductsPaginate(this.thePageNumber - 1,
+                                                this.thePageSize,
+                                                theKeyWord).subscribe(this.processResult());
   }
 
   handleListProducts(){
@@ -94,6 +106,7 @@ export class ProductListComponent implements OnInit {
 
   processResult() {
     return (data: any) => {
+      console.log('products=' + JSON.stringify(data._embedded.products))
       this.products = data._embedded.products;
       this.thePageNumber = data.page.number + 1; // angular page based 1 / spring page based 0
       this.thePageSize = data.page.size;
