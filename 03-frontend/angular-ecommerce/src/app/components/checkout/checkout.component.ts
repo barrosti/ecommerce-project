@@ -9,6 +9,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class CheckoutComponent implements OnInit {
 
   checkoutFormGroup: FormGroup;
+  
+  totalPrice: number = 0;
+  totalQuantity: number = 0;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -35,7 +38,7 @@ export class CheckoutComponent implements OnInit {
         zipcode: ['']
       }),
       creditCard: this.formBuilder.group({
-        cardTyoe: [''],
+        cardType: [''],
         nameOnCard: [''],
         cardNumber: [''],
         securityCode: [''],
@@ -45,6 +48,15 @@ export class CheckoutComponent implements OnInit {
       
     });
 
+  }
+
+  copyShippingToBillingAddress(event: Event){
+    const ischecked = (<HTMLInputElement>event.target).checked;
+    if(ischecked){
+      this.checkoutFormGroup.controls.billingAddress.setValue(this.checkoutFormGroup.controls.shippingAddress.value);
+    }else{
+      this.checkoutFormGroup.controls.billingAddress.reset();
+    }
   }
 
   onSubmit(){
