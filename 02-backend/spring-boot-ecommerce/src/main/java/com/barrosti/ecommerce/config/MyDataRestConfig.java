@@ -1,8 +1,6 @@
 package com.barrosti.ecommerce.config;
 
-import com.barrosti.ecommerce.entity.Author;
-import com.barrosti.ecommerce.entity.Product;
-import com.barrosti.ecommerce.entity.ProductCategory;
+import com.barrosti.ecommerce.entity.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -29,26 +27,24 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         final HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
-        //disable HTTP methods for Product (read only)
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+        //disable HTTP methods (read only)
+        disableHttpMethods(Product.class,config, theUnsupportedActions);
+        disableHttpMethods(ProductCategory.class,config, theUnsupportedActions);
+        disableHttpMethods(Author.class,config, theUnsupportedActions);
+        disableHttpMethods(Country.class,config, theUnsupportedActions);
+        disableHttpMethods(State.class,config, theUnsupportedActions);
 
-        //disable HTTP methods for ProductCategory (read only)
-        config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 
-        //disable HTTP methods for Author (read only)
-        config.getExposureConfiguration()
-                .forDomainType(Author.class)
-                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
 
         // expose ID of entities
         exposeIds(config);
+    }
+
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
+        config.getExposureConfiguration()
+                .forDomainType(theClass)
+                .withItemExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
     }
 
     private void exposeIds(RepositoryRestConfiguration config) {
