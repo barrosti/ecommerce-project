@@ -1,7 +1,7 @@
 import { Author } from "./author";
 export class Product {
     
-    id: number;
+    id: string;
     sku: string;
     name: string;
     description: string;
