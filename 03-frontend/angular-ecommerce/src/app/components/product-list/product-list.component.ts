@@ -109,7 +109,7 @@ export class ProductListComponent implements OnInit {
 
   processResult() {
     return (data: any) => {
-      console.log('products=' + JSON.stringify(data._embedded.products))
+      //console.log('products=' + JSON.stringify(data._embedded.products))
       this.products = data._embedded.products;
       this.thePageNumber = data.page.number + 1; // angular page based 1 / spring page based 0
       this.thePageSize = data.page.size;
