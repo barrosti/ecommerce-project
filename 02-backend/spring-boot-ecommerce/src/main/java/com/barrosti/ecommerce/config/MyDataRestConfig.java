@@ -1,6 +1,7 @@
 package com.barrosti.ecommerce.config;
 
 import com.barrosti.ecommerce.entity.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -16,6 +17,9 @@ import java.util.Set;
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
 
+    @Value("${allowed.origins}")
+    private String[] theAllowedOrigins;
+
     private final EntityManager entityManager;
 
     public MyDataRestConfig(EntityManager entityManager) {
@@ -25,7 +29,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
     @Override
     public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config, CorsRegistry cors) {
 
-        final HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
+        final HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST,
+                                                    HttpMethod.DELETE, HttpMethod.PATCH};
 
         //disable HTTP methods (read only)
         disableHttpMethods(Product.class,config, theUnsupportedActions);
@@ -34,10 +39,11 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Country.class,config, theUnsupportedActions);
         disableHttpMethods(State.class,config, theUnsupportedActions);
 
-
-
         // expose ID of entities
         exposeIds(config);
+
+        // configure cors mapping
+        cors.addMapping(config.getBasePath() + "/**").allowedOrigins( theAllowedOrigins );
     }
 
     private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
