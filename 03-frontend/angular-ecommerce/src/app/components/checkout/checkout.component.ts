@@ -30,6 +30,9 @@ export class CheckoutComponent implements OnInit {
   shippingAddressStates: State[] = [];
   billingAddressStates: State[] = [];
 
+  storage: Storage = sessionStorage;
+  private KEY_STORAGE_EMAIL: string = 'userEmailStorage';
+
   constructor(private formBuilder: FormBuilder, 
               private luv2ShopFormService: Luv2ShopFormService,
               private cartService: CartService,
@@ -39,6 +42,10 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
 
     this.reviewCartDetails();
+
+    // read the user's email address from browser storage
+    const emailJson = this.storage.getItem(this.KEY_STORAGE_EMAIL);
+    const theEmail = emailJson != null ? JSON.parse(emailJson) : '';
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -50,7 +57,7 @@ export class CheckoutComponent implements OnInit {
                                   [Validators.required, 
                                    Validators.minLength(2), 
                                    Luv2ShopValidators.notOnlyWhiteSpace]),
-        email: new FormControl('', 
+        email: new FormControl(theEmail, 
                                   [Validators.required, 
                                    Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])
       }),
@@ -258,6 +265,9 @@ export class CheckoutComponent implements OnInit {
 
     // reset form data
     this.checkoutFormGroup.reset();
+
+    // clear cart content from localstorage
+    localStorage.clear();
 
     //navigate back to the products page
     this.router.navigateByUrl("/products");
