@@ -11,7 +11,7 @@ export class CartService {
   totalPrice: Subject<number> = new BehaviorSubject<number>(0);
   totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
-  KEY_STORAGE_CARTITEM: string = 'cartItemsStorage';
+  private KEY_STORAGE_CARTITEM: string = 'cartItemsStorage';
   storage: Storage = localStorage;
 
   constructor() { 

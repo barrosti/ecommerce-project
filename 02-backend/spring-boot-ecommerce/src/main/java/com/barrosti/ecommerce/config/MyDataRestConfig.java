@@ -38,6 +38,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Author.class,config, theUnsupportedActions);
         disableHttpMethods(Country.class,config, theUnsupportedActions);
         disableHttpMethods(State.class,config, theUnsupportedActions);
+        disableHttpMethods(Order.class,config, theUnsupportedActions);
 
         // expose ID of entities
         exposeIds(config);
